@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {flightData} from "../tickets/tickets";
+import {flightData} from "../../assets/json/tickets";
 import {ColumnContainer, Container, ModRowContainer, RowContainer} from '../../ui/constants';
 import TKLogo from '../../assets/images/tk_logo.png';
 import S7Logo from '../../assets/images/S7_logo.png';
@@ -56,10 +56,11 @@ type IProps = {
     filters: {
         value: string;
         usable: boolean;
-    }[]
+    }[],
+    currency: string;
 }
 
-export const List = memo(({filters} : IProps) => {
+export const List = memo(({filters, currency} : IProps) => {
 
     flightData.sort((a, b) => a.price - b.price);
     // @ts-ignore
@@ -75,6 +76,8 @@ export const List = memo(({filters} : IProps) => {
         setList(flightData.filter((item) => filtersValues.includes(item.stops)))
     }, [filters])
 
+
+
     return (
         <ColumnContainer style={{rowGap: 30}}>
             {list.map((item, index) => (
@@ -82,7 +85,7 @@ export const List = memo(({filters} : IProps) => {
                     <Container style={{borderRadius: '10px 0 0 10px', borderRight: '1px solid grey'}}>
                         <ColumnContainer>
                             <Image src={defineLogo(item.carrier)} alt='TK logo'/>
-                            <Button price={item.price}/>
+                            <Button currency={currency} price={item.price}/>
                         </ColumnContainer>
                     </Container>
                     <Container style={{borderRadius: '0 10px 10px 0', width: '100%'}}>

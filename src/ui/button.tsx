@@ -1,7 +1,13 @@
 import React, {memo} from 'react';
 import styled from "styled-components";
 
-export const Button = memo(({price}: {price: number}) => {
+const convertToAnotherCurrency = (price: number, currency: string) => {
+    if (currency === 'USD'){
+        return (price / 70).toFixed(2) + '$'
+    }
+    if (currency === 'EUR'){
+        return (price / 74.5).toFixed(2) + '€'
+    }
 
     let str = String(price)
     let amountOfGaps = Math.floor(str.length / 3);
@@ -11,10 +17,14 @@ export const Button = memo(({price}: {price: number}) => {
         str = str.slice(0, -3 * (i + 1) - i)
         str = str.concat(' ' + endOfString)
     }
+    str = str.concat('₽')
+    return str
+}
 
+export const Button = memo(({price, currency}: {price: number, currency: string}) => {
     return (
         <MyButton>
-            Купить<br/> за {str}₽
+            Купить<br/> за {convertToAnotherCurrency(price, currency)}
         </MyButton>
     );
 });
@@ -28,4 +38,5 @@ const MyButton = styled.button`
   cursor: pointer;
   font-size: 30px;
   width: 300px;
+  height: 90px;
 `;

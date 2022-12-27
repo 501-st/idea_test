@@ -22,3 +22,22 @@ export const Container = styled.div`
   background-color: white;
   padding: 30px 20px;
 `;
+
+export const CurrencyButton = styled.button`
+  background-color: white;
+  width: 95px;
+  height: 40px;
+  border: 1px solid #e8eaea;
+  color: #2196f3;
+  cursor: pointer;
+  text-transform: uppercase;
+  :hover{
+    background-color: #f2fcff;
+    border: 1px solid #2196f3;
+  }
+  :disabled{
+    color: white;
+    background-color: #2196f3;
+    border: 1px solid #2196f3;
+  }
+`;

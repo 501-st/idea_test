@@ -5,25 +5,28 @@ import {RowContainer} from "./constants";
 type Props = {
     value?: number;
     label: string;
-    chooseOnlyMe: (arg0: number | undefined) => void;
+    onChooseOnlyMe: (arg0: number | undefined) => void;
     state: boolean;
-    setState: React.Dispatch<React.SetStateAction<boolean>>;
+    setState?: React.Dispatch<React.SetStateAction<boolean>>;
+    onChooseAll?: () => void;
 }
 
 
-export const Checkbox = memo(({label, state, setState, chooseOnlyMe, value}: Props) => {
+export const Checkbox = memo(({label, state, setState = () => {}, onChooseOnlyMe, value, onChooseAll = () => {}}: Props) => {
+
     return (
         <ModRowContainer>
-            <RowContainer onClick={() => setState(!state)}
+            <RowContainer onClick={() => {setState(!state); onChooseAll()}}
                           style={{columnGap: 10, cursor: 'pointer', alignItems: 'center'}}>
-                <MyCheckbox onChange={() => setState(!state)} checked={state} type='checkbox'/>
+                <MyCheckbox onChange={() => {setState(!state); onChooseAll()}} checked={state} type='checkbox'/>
                 <div>
                     {label}
                 </div>
             </RowContainer>
-            <Text onClick={() => chooseOnlyMe(value)}>
+            {label !== 'Все' &&
+            <Text onClick={() => onChooseOnlyMe(value)}>
                 только
-            </Text>
+            </Text>}
         </ModRowContainer>
     );
 });
@@ -39,13 +42,19 @@ const ModRowContainer = styled(RowContainer)`
   column-gap: 60px;
   justify-content: space-between;
   align-items: center;
+
   :hover {
-    background-color: lightskyblue;
+    background-color: rgba(135, 206, 250, 0.36);
+
+    div {
+      visibility: visible;
+    }
   }
 `;
 
 const Text = styled.div`
   text-transform: uppercase;
-  color: #795548;
+  color: #2196f3;
   cursor: pointer;
+  visibility: hidden;
 `;
