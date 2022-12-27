@@ -1,14 +1,14 @@
 import React, {memo, useEffect, useState} from 'react';
 import {flightData} from "../tickets/tickets";
-import {ColumnContainer, Container, ModRowContainer, RowContainer} from "../../ui/constants";
-import TKLogo from "../../assets/images/tk_logo.png";
-import S7Logo from "../../assets/images/S7_logo.png";
+import {ColumnContainer, Container, ModRowContainer, RowContainer} from '../../ui/constants';
+import TKLogo from '../../assets/images/tk_logo.png';
+import S7Logo from '../../assets/images/S7_logo.png';
 import SULogo from "../../assets/images/su_logo.png";
 import BALogo from "../../assets/images/ba-logo.png";
 import {Button} from "../../ui/button";
 import styled from "styled-components";
 
-const defineEnding = (stops) => {
+const defineEnding = (stops: number) => {
     const base = 'пересад'
     if (stops === 0) {
         return stops + ' ' + base + 'ок'
@@ -25,7 +25,7 @@ const defineEnding = (stops) => {
     return 'А может надо лететь другим маршрутом?'
 }
 
-const defineLogo = (company) => {
+const defineLogo = (company: string) => {
     if (company === 'TK') {
         return TKLogo
     }
@@ -38,15 +38,35 @@ const defineLogo = (company) => {
     return BALogo
 }
 
-export const List = memo(({filters}) => {
+type FlightDataType = {
+    origin: string;
+    origin_name: string;
+    destination: string;
+    destination_name: string;
+    departure_date: string;
+    departure_time: string;
+    arrival_date: string;
+    arrival_time: string;
+    carrier: string;
+    stops: number;
+    price: number;
+}[]
 
-    console.log('Render list')
+type IProps = {
+    filters: {
+        value: string;
+        usable: boolean;
+    }[]
+}
+
+export const List = memo(({filters} : IProps) => {
 
     flightData.sort((a, b) => a.price - b.price);
-    const [list, setList] = useState([flightData])
+    // @ts-ignore
+    const [list, setList] = useState<FlightDataType>([flightData])
 
     useEffect(() => {
-        let filtersValues = []
+        let filtersValues: number[] = [];
         for (let i = 0; i < filters.length; i++){
             if (filters[i].usable){
                 filtersValues.push(+filters[i].value)

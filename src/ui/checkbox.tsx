@@ -2,7 +2,16 @@ import React, {memo} from 'react';
 import styled from "styled-components";
 import {RowContainer} from "./constants";
 
-export const Checkbox = memo(({label, state, setState, chooseOnlyMe, value}) => {
+type Props = {
+    value?: number;
+    label: string;
+    chooseOnlyMe: (arg0: number | undefined) => void;
+    state: boolean;
+    setState: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
+export const Checkbox = memo(({label, state, setState, chooseOnlyMe, value}: Props) => {
     return (
         <ModRowContainer>
             <RowContainer onClick={() => setState(!state)}

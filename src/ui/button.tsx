@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import styled from "styled-components";
 
-export const Button = memo((props) => {
+export const Button = memo(({price}: {price: number}) => {
 
-    let str = String(props.price)
+    let str = String(price)
     let amountOfGaps = Math.floor(str.length / 3);
 
     for (let i = 0; i < amountOfGaps; i++) {
@@ -13,7 +13,7 @@ export const Button = memo((props) => {
     }
 
     return (
-        <MyButton {...props}>
+        <MyButton>
             Купить<br/> за {str}₽
         </MyButton>
     );
